@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import styles from './Navbar.module.css'
 import React, { useState } from 'react';
 import toggle from '../../assets/images/icons/toggle.png'
@@ -5,10 +6,12 @@ import toggle from '../../assets/images/icons/toggle.png'
 export default function Navbar({ text, logo, listItems }) {
     const [activeTab, setActiveTab] = useState('home');
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const navigate = useNavigate();
 
-    const handleClick = (index) => {
+    const handleClick = (index,path) => {
         setActiveTab(index);
         setDropdownOpen(false);
+        navigate(path)
     };
 
     const toggleDropdown = () => {
@@ -26,7 +29,7 @@ export default function Navbar({ text, logo, listItems }) {
                 <div className={`${styles.listContainer} ${dropdownOpen ? styles.open : ''}`}>
                     <ul>
                         {listItems.map((listItem, index) => {
-                            return <li className={`${styles.liItem} ${activeTab === index ? styles.liActive : ''} fs-6`} key={index} onClick={() => handleClick(index)}>{listItem}</li>
+                            return <li className={`${styles.liItem} ${activeTab === index ? styles.liActive : ''} fs-6`} key={index} onClick={() => handleClick(index,listItem.trim().split(/\s+/)[0].toLowerCase())}>{listItem}</li>
                         }
                         )}
                     </ul>
